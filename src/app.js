@@ -1,14 +1,14 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
 
-import express from 'express';
+const express = require('express');
 const app = express();
 
 //JSON middleware
 app.use(express.json());
 
 //Routes
-import router from './router';
+const router = require('./router');
 
 router.use('/api', router);
 
