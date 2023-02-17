@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 const dotenv = require('dotenv');
@@ -10,17 +11,14 @@ require('../config/db');
 app.use(express.json());
 
 //Routes
-// const router = require('./router');
+const router = require('../routes/Router');
 
-// router.use('/api', router);
+app.use(router);
 
 const port = process.env.PORT;
 
 app.listen(port, async () => {
     console.log(`Servidor rodando na porta ${port}`);
-})
-app.get('/', (req,res) => {
-    res.statusCode(200).send('Oi');
 })
 
 module.exports = app;
