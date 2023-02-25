@@ -14,8 +14,8 @@ const generateToken = id => {
 const register = async(req, res) => {
     // let time = Date.now();
     // let email = `${time}@gmail.com`;
-    email = 'Ajoaovitormatosgouveia@gmail.com'
-    res.send({email});
+    email = 'joaovitormatosgouveia@gmail.com'
+    res.json({email});
 }
 
 module.exports = {
