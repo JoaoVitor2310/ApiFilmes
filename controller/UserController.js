@@ -12,7 +12,10 @@ const generateToken = id => {
 }
 
 const register = async(req, res) => {
-    res.send('Registro')
+    // let time = Date.now();
+    // let email = `${time}@gmail.com`;
+    email = 'Ajoaovitormatosgouveia@gmail.com'
+    res.send({email});
 }
 
 module.exports = {
