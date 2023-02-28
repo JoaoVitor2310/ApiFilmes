@@ -12,17 +12,32 @@ const generateToken = id => {
 }
 
 const register = async(req, res) => {
-    // let time = Date.now();
-    // let email = `${time}@gmail.com`;
     const {name, email, password} = req.body;
+    
     const user = User.findOne({email});
     if(user){
         res.status(422).json({errors: ['Por favor, utilize outro email.']});
         return;
     }
+    //Generate hash
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
 
-    email = 'joaovitormatosgouveia@gmail.com'
-    res.json({email});
+    const newUser = User.create({
+        name, email, password: passwordHash
+    })
+
+    if(!newUser){
+        res.status(422).json({errors: ['Houve um erro, tente novamente mais tarde.']})
+    }
+
+    res.status(201).json({
+        _id: newUser.id,
+        token: generateToken(newUser._id),
+    })
+
+    // email = 'joaovitormatosgouveia@gmail.com'
+    // res.json({email});
 }
 
 module.exports = {
