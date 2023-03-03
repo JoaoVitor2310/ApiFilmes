@@ -24,7 +24,9 @@ const register = async(req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = User.create({
-        name, email, password: passwordHash
+        name,
+        email,
+        password: passwordHash
     })
 
     if(!newUser){
@@ -32,7 +34,7 @@ const register = async(req, res) => {
     }
 
     res.status(201).json({
-        _id: newUser.id,
+        _id: newUser._id,
         token: generateToken(newUser._id),
     })
 
