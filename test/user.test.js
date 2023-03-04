@@ -8,16 +8,29 @@ describe('Cadastro de usuário', () => {
         // let email = `${time}@gmail.com`;
         // email = 'joaovitormatosgouveia@gmail.com';
         // topMovies: ['interstellar', 'top gun: maverick', 'homem aranha 2'], watchList: ['avengers', 'joker', 'la la land'
-        let user = {name: 'João Vitor', email: 'joaovitormatosgouveia@gmail.com', password: '1234567', confirmPassword: '1234567'};
+        let user = {name: 'João Vitor', email: 'joaovitormatosgou@gmail.com', password: '1234567', confirmPassword: '1234567'};
 
         return request.post('/api/users/register')
             .send(user)
             .then(res => {
-                console.log(res.body.errors);
+                // console.log(res.body.errors);
                 expect(res.statusCode).toEqual(201);
-                // expect(res.body._id).toEqual(user.email);
+                expect(res.body.token).toBeDefined();
+                expect(res.body._id).toBeDefined();
             })
     })
+    // test('Deve impedir que o usuário cadastre um email repetido.', () => {
+    //     let user = {name: 'João Vitor', email: 'joaovitormatosgouveia@gmail.com', password: '1234567', confirmPassword: '1234567'};
+
+    //     return request.post('/api/users/register')
+    //         .send(user)
+    //         .then(res => {
+    //             console.log(res.body.errors);
+    //             expect(res.statusCode).toEqual(201);
+    //             // expect(res.body._id).toEqual(user.email);
+                
+    //         })
+    // })
 })
 
 

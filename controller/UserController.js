@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const jwtSecret = process.env.JWT_SECRET;
 
-const generateToken = id => {
+const generateToken = (id) => {
     return jwt.sign({id}, jwtSecret, {
         expiresIn: '7d',
     })
@@ -25,7 +25,7 @@ const register = async(req, res) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const newUser = User.create({
+    const newUser = await User.create({
         name,
         email,
         password: passwordHash
