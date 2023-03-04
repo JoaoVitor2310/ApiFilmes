@@ -2,6 +2,10 @@
 const app = require('./app');
 const PORT = process.env.PORT;
 
-// require('../config/db');
+// conn = require('../config/db');
+// conn();
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Listening on port: ${PORT}`);
+    // conn();
+});

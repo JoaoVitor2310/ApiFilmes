@@ -8,7 +8,7 @@ describe('Cadastro de usuário', () => {
         // let email = `${time}@gmail.com`;
         // email = 'joaovitormatosgouveia@gmail.com';
         // topMovies: ['interstellar', 'top gun: maverick', 'homem aranha 2'], watchList: ['avengers', 'joker', 'la la land'
-        let user = {name: 'João Vitor', email: 'josednamatos@gmail.com', password: '1234567', confirmPassword: '1234567'};
+        let user = {name: 'João Vitor', email: 'joaovitormatosgouveia@gmail.com', password: '1234567', confirmPassword: '1234567'};
 
         return request.post('/api/users/register')
             .send(user)

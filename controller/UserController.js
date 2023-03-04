@@ -14,12 +14,14 @@ const generateToken = id => {
 const register = async(req, res) => {
     const {name, email, password} = req.body;
     
-    const user = User.findOne({email});
+    const user = await User.findOne({email});
+
     if(user){
         res.status(422).json({errors: ['Por favor, utilize outro email.']});
         return;
     }
-    //Generate hash
+    
+    // Generate hash
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
 
