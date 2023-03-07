@@ -44,7 +44,16 @@ const register = async(req, res) => {
     // res.json({email});
 }
 
-const login = (req, res) => {
+const login = async (req, res) => {
+    const {email, password} = req.body;
+
+    const user = await User.findOnde({email});
+
+    if(!user){
+        res.status(422).json({errors: ['Usuário não encontrado.']});
+        return;
+    }
+
     res.send('Login')
 }
 

@@ -2,12 +2,20 @@ const app = require('../src/app');
 const supertest = require('supertest');
 const request = supertest(app);
 
-const userForTests = {name: 'João Vitor', email: 'joaovitormatosgou@gmail.com', password: '1234567', confirmPassword: '1234567'}
+const userForTests = { name: 'João Vitor', email: 'joaovitormatosgou@gmail.com', password: '1234567', confirmPassword: '1234567' }
 
-// beforeAll(() => {
-//     console.log('Jay11');
-// })
+beforeAll(() => {
+    //Registra um novo usuário para os testes
+    // return request.post('/api/users/register')
+    //     .send(userForTests)
+    //     .then(res => { });
+})
 
+
+afterAll(() => {
+    //Deleta o usuário criado pros testes
+    
+})
 
 describe('Cadastro de usuário', () => {
     test('Deve cadastrar um usuário novo com sucesso', () => {
