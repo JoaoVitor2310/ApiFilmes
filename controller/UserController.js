@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const mongoose = require('mongoose');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -57,7 +58,21 @@ const login = async (req, res) => {
     res.send('Login')
 }
 
+//DeleteUser is useful for the tests
+const deleteUser = async(req, res) => {
+    const { id } = req.body;
+    
+    const user = await User.findById(mongoose.Types.ObjectId(id));
+
+    if(user){
+        await User.findByIdAndDelete(mongoose.Types.ObjectId(id));
+        res.send("Usuário deletado");
+        return;
+    }
+}
+
 module.exports = {
     register,
-    login
+    login,
+    deleteUser
 }
