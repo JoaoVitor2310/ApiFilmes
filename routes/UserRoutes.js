@@ -11,6 +11,6 @@ const {userCreateValidation, loginValidation} = require('../middlewares/userVali
 //Routes
 router.post('/register', userCreateValidation(), validate, register);
 router.post('/login', loginValidation(), validate, login);
-router.delete('/deleteuser', validate, deleteUser);
+router.delete('/deleteuser/:email', validate, deleteUser);
 
 module.exports = router;

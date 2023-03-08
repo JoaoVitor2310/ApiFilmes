@@ -60,12 +60,12 @@ const login = async (req, res) => {
 
 //DeleteUser is useful for the tests
 const deleteUser = async(req, res) => {
-    const { id } = req.body;
+    const { email } = req.params;
     
-    const user = await User.findById(mongoose.Types.ObjectId(id));
+    const user = await User.findOne({email});
 
     if(user){
-        await User.findByIdAndDelete(mongoose.Types.ObjectId(id));
+        await User.deleteOne({email});
         res.send("Usuário deletado");
         return;
     }
