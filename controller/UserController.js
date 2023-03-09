@@ -41,21 +41,29 @@ const register = async(req, res) => {
         token: generateToken(newUser._id),
     })
 
-    // email = 'joaovitormatosgouveia@gmail.com'
-    // res.json({email});
 }
 
 const login = async (req, res) => {
     const {email, password} = req.body;
 
-    const user = await User.findOnde({email});
+    const user = await User.findOne({email});
 
     if(!user){
         res.status(422).json({errors: ['Usuário não encontrado.']});
         return;
     }
 
-    res.send('Login')
+    //Check if pawword matches
+    if(!(await bcrypt.compare(password, user.password))){
+        res.status(422).json({errors: ['Senha inválida.']});
+        return;
+    }
+
+    res.status(200).json({
+        _id: user._id,
+        token: generateToken(user._id),
+    })
+    // res.send('Login')
 }
 
 //DeleteUser is useful for the tests

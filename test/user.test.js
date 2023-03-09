@@ -37,3 +37,23 @@ describe('Cadastro de usuário', () => {
             })
     })
 })
+
+describe('Autenticação', () => {
+    test('Deve garantir que será retornado um token quando o login for realizado.', () => {
+        return request.post('/api/users/login')
+                    .send({email: user.email,password: user.password})
+                    .then(res => {
+                        expect(res.statusCode).toEqual(200);
+                        expect(res.body._id).toBeDefined();
+                        expect(res.body.token).toBeDefined();
+                    })
+    })
+
+    test('Deve impedir que um usuério consiga logar com um email não cadastrado.', () => {
+        return request.post('/api/users/login')
+                    .send({email: user.email + 'semCadastro', password: '1234567'})
+                    .then(res => {
+                        expect(res.statusCode).toEqual(422);
+                    })
+    })
+})
