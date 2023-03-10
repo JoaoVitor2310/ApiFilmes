@@ -2,7 +2,7 @@ const app = require('../src/app');
 const supertest = require('supertest');
 const request = supertest(app);
 
-let user = { name: 'João Vitor', email: 'joaovitormatosgouveia@gmail.com', password: '1234567', confirmPassword: '1234567' };
+let user = { name: 'João Vitor', email: 'joaovitormatosgouveia@hotmail.com', password: '1234567', confirmPassword: '1234567' };
 
 afterAll(() => {
     //Deleta o usuário criado pros testes de registro.
