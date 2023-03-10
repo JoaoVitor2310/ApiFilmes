@@ -55,7 +55,7 @@ const login = async (req, res) => {
 
     //Check if pawword matches
     if(!(await bcrypt.compare(password, user.password))){
-        res.status(422).json({errors: ['Senha inválida.']});
+        res.status(403).json({errors: ['Senha inválida.']});
         return;
     }
 
@@ -91,5 +91,3 @@ module.exports = {
     deleteUser,
     getCurrentUser,
 }
-
-    //Teste de commit

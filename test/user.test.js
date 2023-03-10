@@ -56,4 +56,12 @@ describe('Autenticação', () => {
                         expect(res.statusCode).toEqual(422);
                     })
     })
+
+    test('Deve impedir que o usuário consiga logar com uma senha errada', () => {
+        return request.post('/api/users/login')
+        .send({email: user.email, password: 'senhaErrada'})
+        .then(res => {
+            expect(res.statusCode).toEqual(403);
+        })
+    })
 })
