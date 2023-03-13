@@ -7,21 +7,21 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 
 const generateToken = (id) => {
-    return jwt.sign({id}, jwtSecret, {
+    return jwt.sign({ id }, jwtSecret, {
         expiresIn: '7d',
     })
 }
 
-const register = async(req, res) => {
-    const {name, email, password} = req.body;
-    
-    const user = await User.findOne({email});
+const register = async (req, res) => {
+    const { name, email, password } = req.body;
 
-    if(user){
-        res.status(422).json({errors: ['Por favor, utilize outro email.']});
+    const user = await User.findOne({ email });
+
+    if (user) {
+        res.status(422).json({ errors: ['Por favor, utilize outro email.'] });
         return;
     }
-    
+
     // Generate hash
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -32,8 +32,8 @@ const register = async(req, res) => {
         password: passwordHash
     })
 
-    if(!newUser){
-        res.status(422).json({errors: ['Houve um erro, tente novamente mais tarde.']})
+    if (!newUser) {
+        res.status(422).json({ errors: ['Houve um erro, tente novamente mais tarde.'] })
     }
 
     res.status(201).json({
@@ -44,18 +44,18 @@ const register = async(req, res) => {
 }
 
 const login = async (req, res) => {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
 
-    if(!user){
-        res.status(422).json({errors: ['Usuário não encontrado.']});
+    if (!user) {
+        res.status(422).json({ errors: ['Usuário não encontrado.'] });
         return;
     }
 
     //Check if pawword matches
-    if(!(await bcrypt.compare(password, user.password))){
-        res.status(403).json({errors: ['Senha inválida.']});
+    if (!(await bcrypt.compare(password, user.password))) {
+        res.status(403).json({ errors: ['Senha inválida.'] });
         return;
     }
 
@@ -67,13 +67,13 @@ const login = async (req, res) => {
 }
 
 //DeleteUser is useful for the tests
-const deleteUser = async(req, res) => {
+const deleteUser = async (req, res) => {
     const { email } = req.params;
-    
-    const user = await User.findOne({email});
 
-    if(user){
-        await User.deleteOne({email});
+    const user = await User.findOne({ email });
+
+    if (user) {
+        await User.deleteOne({ email });
         res.send("Usuário deletado");
         return;
     }
@@ -86,7 +86,23 @@ const getCurrentUser = async (req, res) => {
 }
 
 const update = async (req, res) => {
-    res.send('Update!');
+    const { name, password } = req.body;
+
+    const reqUser = req.user;
+    const user = await User.findById(mongoose.Types.ObjectId(reqUser._id)).select('-password');
+
+    if (name) {
+        user.name = name;
+    }
+
+    if (password) {
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(password, salt);
+        user.password = passwordHash;
+    }
+
+    await user.save();
+    res.status(200).json(user);
 }
 
 module.exports = {
