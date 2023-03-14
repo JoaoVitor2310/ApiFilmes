@@ -31,12 +31,12 @@ describe('Cadastro de usuário', () => {
         return request.post('/api/users/register')
             .send(user)
             .then(res => {
-                // console.log(res.body.errors);
                 expect(res.statusCode).toEqual(422);
-                // expect(res.body._id).toEqual(user.email);
             })
     })
 })
+
+let tokenLogin = '';
 
 describe('Autenticação', () => {
     test('Deve garantir que será retornado um token quando o login for realizado.', () => {
@@ -46,6 +46,7 @@ describe('Autenticação', () => {
                         expect(res.statusCode).toEqual(200);
                         expect(res.body._id).toBeDefined();
                         expect(res.body.token).toBeDefined();
+                        tokenLogin = res.body.token;
                     })
     })
 
@@ -63,5 +64,19 @@ describe('Autenticação', () => {
         .then(res => {
             expect(res.statusCode).toEqual(403);
         })
+    })
+})
+
+describe('Manipulação de dados depois de logar.', () => {
+    test('Deve atualizar nome, senha, topMovies ou WatchList de um usuário', () => {
+        const name = 'João', password = '12345678';
+        return request.put('/api/users/')
+                    .set('authorization', `Bearer ${tokenLogin}`)
+                    .send({name, password})
+                    .then(res => {
+                        expect(res.statusCode).toEqual(200);
+                        console.log(res.body.name).toEqual(name);
+                        //A senha não iremos testar por conta do hash, mas o princípio é o mesmo
+                    })
     })
 })
